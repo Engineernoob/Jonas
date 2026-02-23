@@ -1,0 +1,6 @@
+torch
+numpy
+requests
+rich
+pyyaml
+sqlite-utils
