@@ -35,6 +35,29 @@ def add_turn(role: str, text: str, embedding: np.ndarray = None, metadata: str =
                 (role, text, emb_blob, metadata))
     _conn.commit()
 
+def add_summary(text: str):
+    cur = _conn.cursor()
+    cur.execute(
+       "INSERT INTO turns (role, text) VALUES (?, ?)",
+        ("summary", text),
+    )
+    _conn.commit()
+
+def turn_count():
+    cur = _conn.cursor
+    cur.execute("SELECT COUNT(*) FROM turns WHERE role IN ('user', 'assistant')")
+    return cur.fetchone()[0]
+
+def recent_block(limit=10):
+    cur = _conn.cursor()
+    cur.execute(
+        "SELECT role, text FROM turns WHERE role IN ('user','assistant') ORDER BY id DESC LIMIT ?",
+        (limit,),
+    )
+    rows = cur.fetchall()
+    rows.reverse()
+    return rows
+
 def recent_turns(limit=8):
     cur = _conn.cursor()
     cur.execute("SELECT role, text FROM turns ORDER BY id DESC LIMIT ?", (limit,))
