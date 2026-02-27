@@ -131,7 +131,7 @@ def main():
         except Exception:
             add_turn("assistant", reply)
 
-        console.print(Panel(reply, title=f"Jonas ({pol.preset})", border_style="green"))
+        console.print(Panel(reply, title="Jonas", border_style="green"))
 
 if __name__ == "__main__":
     main()
